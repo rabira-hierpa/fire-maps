@@ -1,45 +1,63 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import tailwindCSSLogo from "./assets/tailwindcss.svg";
-import "./App.css";
+import { useState, useCallback } from "react";
+import Map from "react-map-gl";
+import DrawControl from "./components/draw-control";
+import ControlPanel from "./components/control-panel";
 
-function App() {
-  const [count, setCount] = useState(0);
+const TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN; // Set your mapbox token here
+
+export default function App() {
+  const [features, setFeatures] = useState({});
+
+  const onUpdate = useCallback((e: { features: any }) => {
+    setFeatures((currFeatures) => {
+      const newFeatures: any = { ...currFeatures };
+      for (const f of e.features) {
+        newFeatures[f.id] = f;
+      }
+      console.log({ newFeatures });
+      return newFeatures;
+    });
+  }, []);
+
+  const onDelete = useCallback((e: { features: any }) => {
+    setFeatures((currFeatures) => {
+      const newFeatures: any = { ...currFeatures };
+      for (const f of e.features) {
+        delete newFeatures[f.id];
+      }
+      return newFeatures;
+    });
+  }, []);
 
   return (
-    <div className="App">
-      <div className="flex justify-center">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-        <a href="https://tailwindcss.com" target="_blank">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg"
-            className="logo tailwind"
-            alt="TailwindCSS logo"
-          />
-        </a>
-      </div>
-      <h1 className="font-bold">Vite + React + TailwindCSS</h1>
-      <div className="card">
-        <button
-          className="text-blue-400"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="">
+      <Map
+        style={{
+          width: "100vw",
+          height: "100vh",
+        }}
+        initialViewState={{
+          longitude: 38.763611,
+          latitude: 9.0054011,
+          zoom: 12,
+        }}
+        mapStyle="mapbox://styles/mapbox/satellite-v9"
+        mapboxAccessToken={TOKEN}
+      >
+        <DrawControl
+          position="top-left"
+          displayControlsDefault={false}
+          controls={{
+            polygon: true,
+            trash: true,
+          }}
+          defaultMode="draw_polygon"
+          onCreate={onUpdate}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
+        />
+      </Map>
+      <ControlPanel polygons={Object.values(features)} />
     </div>
   );
 }
-
-export default App;

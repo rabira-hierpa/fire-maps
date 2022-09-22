@@ -4,7 +4,41 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.3.0/mapbox-gl-draw.css"
+      type="text/css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: Helvetica, Arial, sans-serif;
+      }
+      .control-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        max-width: 320px;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        padding: 12px 24px;
+        margin: 20px;
+        font-size: 13px;
+        line-height: 2;
+        color: #6b6b76;
+        text-transform: uppercase;
+        outline: none;
+      }
+    </style>
+    <title>Fire Maps</title>
   </head>
   <body>
     <div id="root"></div>
