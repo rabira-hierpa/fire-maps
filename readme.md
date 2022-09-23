@@ -1,16 +1,23 @@
-# ReViT
+# Fire Maps
 
-A React boilerplate with TypeScript, TailwindCSS and Vite.
+React Mapbox GL implementation for adding polygons on mapbox.
 
 ## Installation/Usage
 
 You can start using this repo as a template or clone the repostory and start hacking
 
 ```bash
-  git clone https://github.com/rabira-hierpa/revit
-  cd vite
+  git clone https://github.com/rabira-hierpa/fire-maps
+  cd fire-maps
   npm install
 ```
+
+### Environment setup
+
+Make sure you copy `.env.example` file to your `.env`(creat new if you don't have it yet) and apply your secrets before running the applcation.
+You will need  
+ 1. Mapbox Access Token (you can sign up for free)
+ 2. Firebase project 
 
 ## License
 
