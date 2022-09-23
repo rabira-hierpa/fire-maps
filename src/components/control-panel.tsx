@@ -1,34 +1,55 @@
 import * as React from "react";
 import area from "@turf/area";
+import { Timestamp } from "firebase/firestore";
 
 type IControlProps = {
   polygons: any;
+  handleDelete: (id: string) => void;
 };
 
 function ControlPanel(props: IControlProps) {
-  let polygonArea = 0;
-  for (const polygon of props.polygons) {
-    polygonArea += area(polygon);
-  }
+  const { polygons, handleDelete } = props;
 
   return (
-    <div className="control-panel">
-      <h3>Draw Polygon</h3>
-      {polygonArea > 0 && (
-        <p>
-          {Math.round(polygonArea * 100) / 100} <br />
-          square meters
-        </p>
+    <>
+      {polygons.length && (
+        <div className="control-panel h-1/2">
+          <h3>Polygons</h3>
+          <ul>
+            {polygons.map((polygon: any) => {
+              // const date = new;
+              return (
+                <li key={polygon.id}>
+                  <div className="flex flex-col">
+                    <p className="flex justify-between space-x-10 font-sm ">
+                      <span>ID: {String(polygon.id).slice(0, 4)}</span>
+                      <span>
+                        {new Timestamp(
+                          polygon.created.seconds,
+                          polygon.created.nanoseconds
+                        )
+                          .toDate()
+                          .toLocaleTimeString()}
+                      </span>
+                    </p>
+                    <p className="flex justify-between font-sm">
+                      <span>{polygon.type}</span>{" "}
+                      <button
+                        onClick={() => handleDelete(polygon?.docId)}
+                        className="text-red-400"
+                      >
+                        Delete
+                      </button>
+                    </p>
+                  </div>
+                  <div className="border-y-2"></div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       )}
-      <div className="source-link">
-        <a
-          href="https://github.com/visgl/react-map-gl/tree/7.0-release/examples/draw-polygon"
-          target="_new"
-        >
-          View Code ↗
-        </a>
-      </div>
-    </div>
+    </>
   );
 }
 
