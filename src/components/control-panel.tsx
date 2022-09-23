@@ -25,8 +25,8 @@ function ControlPanel(props: IControlProps) {
                       <span>ID: {String(polygon.id).slice(0, 4)}</span>
                       <span>
                         {new Timestamp(
-                          polygon.created.seconds,
-                          polygon.created.nanoseconds
+                          polygon.created?.seconds,
+                          polygon.created?.nanoseconds
                         )
                           .toDate()
                           .toLocaleTimeString()}
